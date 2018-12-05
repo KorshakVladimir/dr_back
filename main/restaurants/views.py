@@ -37,7 +37,7 @@ class FileUploadView(views.APIView):
         location_geo = data['location'].split('/')
         response = load_url('https://maps.googleapis.com/maps/api/geocode/json?latlng={},{}&key={}'
                             .format(location_geo[0], location_geo[1], GEO_KEY))
-        data['address'] = json.loads(response)['results'][0]['formatted_address']
+        data['address'] = json.loads(response.decode())['results'][0]['formatted_address']
         serializer = RestaurantsSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
